@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Describing Figures Quiz</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{--bg:#eef1f4;--card:#fff;--ink:#151a22;--muted:#4f5867;--line:#d6dbe3;--soft:#f4f6f9;--accent:#2445c4;--accent-ink:#fff;--mark:#ffd84a;--mark-ink:#151a22;--good:#1b7a45;--good-bg:#e3f4ea;--bad:#b4261c;--bad-bg:#fbe7e5;--warn-bg:#fff4d1;--warn:#7a5200;--head:#1f4e63;--head-ink:#fff;--hero:#dfe9f3;
+--display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;--body:"Source Sans 3","Segoe UI",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,Consolas,monospace;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151b;--card:#1c2029;--ink:#eef1f6;--muted:#a9b1bf;--line:#353b48;--soft:#242935;--accent:#8fa6ff;--accent-ink:#0d1120;--good:#6fd39a;--good-bg:#173323;--bad:#ff8f84;--bad-bg:#3a1c1a;--warn-bg:#3a2f12;--warn:#ffd77a;--head:#8fc3d9;--head-ink:#0d1a20;--hero:#1f2a36;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12151b;--card:#1c2029;--ink:#eef1f6;--muted:#a9b1bf;--line:#353b48;--soft:#242935;--accent:#8fa6ff;--accent-ink:#0d1120;--good:#6fd39a;--good-bg:#173323;--bad:#ff8f84;--bad-bg:#3a1c1a;--warn-bg:#3a2f12;--warn:#ffd77a;--head:#8fc3d9;--head-ink:#0d1a20;--hero:#1f2a36;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 var(--body);-webkit-text-size-adjust:100%}
+.hidden{display:none!important}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px 48px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 20px}
+.eyebrow{font:600 12px var(--body);text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:6px}
+.muted{color:var(--muted)}
+label.f{display:block;font-weight:600;margin:14px 0 4px}
+input.t{width:100%;font:inherit;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+input.t:focus{outline:2px solid var(--accent);outline-offset:1px}
+.btn{font:700 16px var(--body);border-radius:999px;padding:11px 22px;cursor:pointer;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);min-height:44px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn:focus-visible,.num:focus-visible,.opt:focus-visible{outline:3px solid var(--mark);outline-offset:2px}
+.linkbtn{background:none;border:0;color:var(--muted);text-decoration:underline;font:inherit;font-size:.9rem;cursor:pointer;padding:8px 0}
+.err{color:var(--bad);font-weight:600;min-height:1.4em;margin:8px 0 0}
+.rules{background:var(--warn-bg);border-radius:12px;padding:12px 16px;margin:18px 0 6px}
+.rules b{color:var(--warn)}
+.rules ul{margin:6px 0 0;padding-left:20px}
+/* student: top bar + grid */
+.sbar{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);margin-bottom:14px}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-weight:600;font-size:.9rem}
+.chip.warn{background:var(--warn-bg);color:var(--warn)}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.num{font:700 18px var(--mono);aspect-ratio:1;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.num.done{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+.num.open{border-color:var(--accent);color:var(--accent)}
+.num.locked{background:var(--soft);color:var(--muted);text-decoration:line-through;cursor:not-allowed}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.85rem;color:var(--muted);margin:12px 0}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;border:1.5px solid var(--line);vertical-align:-1px;margin-right:4px}
+/* student: question */
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.qhead h2{font-size:1.6rem}
+.clock{font:700 1.5rem var(--mono)}
+.clock.low{color:var(--bad)}
+.tbar{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin-bottom:14px}
+.tbar i{display:block;height:100%;background:var(--accent);width:100%;transition:width 1s linear}
+.hint{font-size:.9rem;color:var(--muted);margin:0 0 10px}
+.opts{display:flex;flex-direction:column;gap:10px;user-select:none;-webkit-user-select:none}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;font:inherit;font-size:1.02rem;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer;min-height:52px}
+.opt .l{font:700 1rem var(--mono);color:var(--accent);min-width:1.4em}
+.opt .bl{display:block}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--soft);box-shadow:inset 0 0 0 1px var(--accent)}
+.saved{font-weight:700;color:var(--good);min-height:1.5em;margin:10px 0 0}
+/* modal & toast */
+.overlay{position:fixed;inset:0;background:rgba(10,12,18,.72);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
+.modal{background:var(--card);color:var(--ink);border-radius:16px;max-width:440px;width:100%;padding:22px 20px;border:2px solid var(--line)}
+.modal.danger{border-color:var(--bad)} .modal.caution{border-color:var(--mark)}
+.modal h2{font-size:1.3rem;margin-bottom:8px}
+.modal .acts{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:999px;font-weight:600;z-index:60;font-size:.92rem;max-width:calc(100% - 32px);text-align:center}
+/* results (inspired by the reading-practice end page) */
+.hero{background:var(--hero);border-radius:22px;padding:22px 22px 24px;margin-bottom:18px}
+.hero h1{font-size:clamp(1.7rem,7vw,2.3rem);font-weight:800;margin-bottom:8px}
+.hero .meta{display:flex;flex-direction:column;gap:4px;font-size:1.05rem;margin-bottom:16px}
+.hero .meta b{font-weight:700}
+.scorepill{display:inline-flex;align-items:baseline;gap:6px;background:var(--head);color:var(--head-ink);border-radius:999px;padding:12px 30px}
+.scorepill b{font:800 2.4rem var(--display)}
+.scorepill span{font-size:1.1rem;opacity:.9}
+.flag{margin-top:14px;padding:8px 12px;border-radius:10px;background:var(--bad-bg);color:var(--bad);font-weight:600}
+.flag.ok{background:var(--good-bg);color:var(--good)}
+.ri{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:12px}
+.ri.c{border-left-color:var(--good)} .ri.w{border-left-color:var(--bad)}
+.ri .qq{display:flex;gap:10px;font-weight:600}
+.ri .qq .n{color:var(--accent);font-family:var(--mono)}
+.ri .ya{margin:8px 0 0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:.98rem}
+.ri .ya span:first-child{color:var(--muted)}
+.ri .ya b{white-space:pre-line}
+.badge{display:inline-block;margin-top:8px;border-radius:999px;padding:2px 12px;font-weight:700;font-size:.88rem}
+.badge.c{background:var(--good-bg);color:var(--good)} .badge.w{background:var(--bad-bg);color:var(--bad)}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.filters button{font:600 14px var(--body);border:1.5px solid var(--ink);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+/* projector */
+#proj{position:fixed;inset:0;display:flex;flex-direction:column;background:var(--bg);padding:1.6vh 2.2vw}
+.pbar{display:flex;align-items:center;gap:2vw;justify-content:space-between}
+.pnum{font:800 clamp(28px,3.4vw,72px) var(--display)}
+.pnum small{font-size:.5em;color:var(--muted);font-weight:600}
+.ptimer{font:700 clamp(36px,5vw,110px) var(--mono);min-width:3.2em;text-align:right}
+.ptimer.low{color:var(--bad)}
+.ptimer.up{color:var(--bad)}
+.ptbar{height:1.2vh;border-radius:99px;background:var(--line);overflow:hidden;margin:1vh 0 1.6vh}
+.ptbar i{display:block;height:100%;background:var(--accent);width:100%;transition:width 1s linear}
+.pmain{flex:1;min-height:0;overflow:hidden;display:flex;gap:2.4vw;align-items:flex-start}
+.pmain .ptexts{flex:1.15;display:flex;flex-direction:column;gap:1.4vh}
+.ptext{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:1.4vh 1.4vw;line-height:1.38}
+.ptext b{display:block;font-family:var(--display);color:var(--accent);margin-bottom:.3em}
+.pq{flex:1;font-weight:600;line-height:1.32}
+.pq .stem{white-space:pre-line}
+.popts{margin-top:1.4em;display:flex;flex-direction:column;gap:.45em;font-weight:400}
+.popts div{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:.3em .6em}
+.ptip{font-size:.62em;color:var(--muted);font-weight:600;margin-top:1.2em}
+.pmain.reading .pq{font-size:1.15em}
+.pmain.two{flex-direction:column;gap:1.6vh}
+.pmain.two .ptexts{flex-direction:row;gap:1.6vw;flex:none;width:100%}
+.pmain.two .ptext{flex:1}
+.pmain.two .pq{flex:none}
+.pctrl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;padding-top:1.2vh;border-top:1px solid var(--line);margin-top:1.2vh}
+.pctrl .btn{padding:8px 16px;font-size:15px;min-height:40px}
+.pctrl .sep{flex:1}
+.pgrid{display:grid;grid-template-columns:repeat(10,1fr);gap:8px;max-width:760px;margin:auto}
+.pgrid button{font:700 18px var(--mono);padding:12px 0;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.pgrid button.cur{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+@media print{.sbar,.filters,.noprint{display:none!important}body{background:#fff;color:#000}.ri{break-inside:avoid}}
+
+/* ---- describing-figures additions ---- */
+.pmain.fig{align-items:stretch}
+.pfig{flex:1.25;min-width:0;display:flex;flex-direction:column;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:1.4vh 1.4vw}
+.pfig .ft{font-family:var(--display);font-weight:800;font-size:.62em;color:var(--accent);margin-bottom:.4em;line-height:1.2}
+.pfig .fb{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.pfig svg{width:100%;height:100%;max-height:100%}
+.pfig table{border-collapse:collapse;width:100%;font-size:.7em;font-weight:600}
+.pfig th,.pfig td{border:2px solid var(--line);padding:.35em .6em;text-align:center}
+.pfig th{background:var(--soft)}
+.pfig td:first-child,.pfig th:first-child{text-align:left}
+.pq{flex:1;min-width:0;overflow:hidden}
+.pq .stem{font-size:.78em}
+.pq .popts{font-size:.62em}
+.pq .popts b{color:var(--accent);font-family:var(--mono);margin-right:.4em}
+.relbox{margin-top:1em;border:3px dashed var(--line);border-radius:16px;padding:.5em .7em;font-size:.55em;color:var(--muted);font-weight:600}
+.relbox.on{border:3px solid var(--good);background:var(--good-bg);color:var(--ink)}
+.relbox .code{display:block;font:800 3.2em var(--mono);color:var(--good);letter-spacing:.12em;line-height:1.05}
+.btn.rel{background:var(--good);border-color:var(--good);color:#fff}
+/* phone: code gate */
+.gate{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:18px 16px;text-align:center}
+.gate p{margin:0 0 10px}
+.gate input{font:800 2.4rem var(--mono);width:5.5em;text-align:center;letter-spacing:.2em;padding:8px;border:2px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}
+.gate .btn{margin-top:12px;width:100%}
+
+</style>
+</head>
+<body>
+
+<!-- ============ LANDING / STUDENT START ============ -->
+<div class="wrap" id="startScreen">
+ <div class="card">
+  <div class="eyebrow">Describing figures · Phone</div>
+  <h1 style="font-size:clamp(1.7rem,6vw,2.2rem);font-weight:800;margin-bottom:6px">Practice Quiz</h1>
+  <p class="muted" style="margin:0">50 questions about 5 figures. The figure and the question appear on the projector; you answer on this phone.</p>
+  <label class="f" for="fullName">Full name</label>
+  <input class="t" id="fullName" autocomplete="off" placeholder="e.g., Nathaliza Laura Pramesty">
+  <label class="f" for="studentNo">Student number</label>
+  <input class="t" id="studentNo" autocomplete="off" inputmode="numeric" placeholder="e.g., 2405123">
+  <label class="f" for="program">Study program</label>
+  <input class="t" id="program" autocomplete="off" placeholder="e.g., English Literature">
+  <div class="rules"><b>How it works</b>
+   <ul>
+    <li>When the projector shows <b>Question 7</b>, tap <b>7</b> on your phone.</li>
+    <li>First, <b>read the figure and the question</b> on the projector. The answer options stay locked.</li>
+    <li>When your lecturer releases the options, a <b>2-digit code</b> appears on the projector. Type it to see the options.</li>
+    <li>You then have 30 seconds. When the time ends, that question locks.</li>
+    <li>Your options are in a different order from your friends’ options.</li>
+   </ul>
+   <b style="display:block;margin-top:8px">⚠ Anti-cheating rules</b>
+   <ul>
+    <li>Stay on this page: no other tabs or apps, no split screen, no notifications. Keep your screen on.</li>
+    <li>Each time you leave, your options are shuffled again. You get <b>2 warnings</b>; the <b>3rd</b> time, your quiz is submitted automatically.</li>
+   </ul></div>
+  <p class="err" id="startErr" role="alert"></p>
+  <button class="btn primary" id="startBtn" type="button">Start →</button>
+ </div>
+ <p style="text-align:center"><button class="linkbtn" id="lecturerLink" type="button">Lecturer projector display</button></p>
+</div>
+
+<!-- ============ STUDENT: NUMBER GRID ============ -->
+<div class="wrap hidden" id="gridScreen">
+ <div class="sbar">
+  <span class="chip" id="sWho"></span>
+  <span class="chip" id="sCount">0 / 50 answered</span>
+  <span class="chip" id="sWarn">Warnings: 0 / 2</span>
+ </div>
+ <h2 style="font-size:1.25rem;margin-bottom:4px">Tap the number shown on the projector</h2>
+ <div class="legend"><span><i></i>Not opened</span><span><i style="border-color:var(--accent)"></i>Open</span><span><i style="background:var(--good-bg);border-color:var(--good)"></i>Answered</span><span><i style="background:var(--soft)"></i>Time’s up</span></div>
+ <div class="grid" id="grid"></div>
+ <div style="display:flex;justify-content:flex-end;margin-top:18px"><button class="btn primary" id="submitBtn" type="button">Submit quiz ✓</button></div>
+</div>
+
+<!-- ============ STUDENT: QUESTION ============ -->
+<div class="wrap hidden" id="qScreen">
+ <div class="qhead"><h2 id="qTitle">Question 1</h2><span class="clock" id="qClock">0:30</span></div>
+ <div class="tbar" aria-hidden="true"><i id="qBar"></i></div>
+ <div id="qGate" class="gate">
+  <p><b>Look at the projector.</b> Read the figure and the question first.</p>
+  <p class="muted" style="font-size:.95rem">When the options are released, type the code shown on the projector.</p>
+  <input id="gIn" inputmode="numeric" maxlength="2" autocomplete="off" aria-label="Release code">
+  <button class="btn primary" id="gBtn" type="button">Show options</button>
+  <p class="err" id="gErr" role="alert"></p>
+ </div>
+ <div id="qBody" class="hidden">
+  <p class="hint">Choose one answer.</p>
+  <div class="opts" id="qOpts" role="group" aria-label="Answer options"></div>
+  <p class="saved" id="qSaved" aria-live="polite"></p>
+ </div>
+ <button class="btn" id="backBtn" type="button" style="margin-top:8px">← Back to numbers</button>
+</div>
+
+<!-- ============ STUDENT: RESULTS ============ -->
+<div class="wrap hidden" id="resultScreen">
+ <div class="hero">
+  <h1 id="rName"></h1>
+  <div class="meta" id="rMeta"></div>
+  <div class="scorepill"><b id="rScore"></b><span id="rTotal"></span></div>
+  <div id="rFlag"></div>
+ </div>
+ <p class="muted" style="margin:0 0 12px">Only shows whether each answer is correct. The answer key is not shown.</p>
+ <div class="filters" role="group" aria-label="Filter results">
+  <button type="button" data-f="all" aria-pressed="true">All</button>
+  <button type="button" data-f="c" aria-pressed="false">Correct</button>
+  <button type="button" data-f="w" aria-pressed="false">Incorrect / unanswered</button>
+ </div>
+ <div id="rList"></div>
+</div>
+
+<!-- ============ LECTURER: PROJECTOR ============ -->
+<div id="proj" class="hidden">
+ <div class="pbar">
+  <div class="pnum" id="pNum">Question 1 <small>/ 50</small></div>
+  <div class="ptimer" id="pTimer">0:30</div>
+ </div>
+ <div class="ptbar" aria-hidden="true"><i id="pBar"></i></div>
+ <div class="pmain fig" id="pMain"></div>
+ <div class="pctrl noprint">
+  <button class="btn" id="pPrev" type="button">← Prev</button>
+  <button class="btn rel" id="pRel" type="button">🔓 Release options (R)</button>
+  <button class="btn" id="pPlay" type="button">❚❚ Pause</button>
+  <button class="btn" id="pAdd" type="button">+10 s</button>
+  <button class="btn" id="pReset" type="button">↺ Reset</button>
+  <button class="btn" id="pOpts" type="button" aria-pressed="false">Show options</button>
+  <button class="btn" id="pJump" type="button">All numbers</button>
+  <button class="btn" id="pFull" type="button">Full screen</button>
+  <span class="sep"></span>
+  <button class="btn primary" id="pNext" type="button">Next →</button>
+ </div>
+</div>
+<div id="modalRoot"></div>
+
+<script>
+(function(){
+"use strict";
+/* ---------------- data ---------------- */
+var FIGS={"1": {"type": "table", "title": "Figure 1 · How people travel to work (%)", "head": ["Transport", "City A (%)", "City B (%)"], "rows": [["Car", 40, 20], ["Bus", 25, 35], ["Bike", 15, 30], ["Walk", 20, 15]]}, "2": {"type": "bar", "title": "Figure 2 · Favorite ways to study English (% of 200 students)", "unit": "%", "max": 40, "step": 10, "rows": [["Apps", 38], ["Videos", 27], ["Books", 20], ["Classes", 15]]}, "3": {"type": "line", "title": "Figure 3 · University students using online learning apps (%)", "unit": "%", "max": 100, "step": 20, "rows": [["2020", 20], ["2021", 45], ["2022", 60], ["2023", 68], ["2024", 75]]}, "4": {"type": "pie", "title": "Figure 4 · Main source of news, 2024 (%)", "rows": [["Social media", 45], ["TV", 25], ["Websites", 20], ["Newspapers", 10]]}, "5": {"type": "group", "title": "Figure 5 · Average daily time on social media by age group (hours)", "unit": "", "max": 5, "step": 1, "series": ["2020", "2024"], "rows": [["13–19", 3, 4], ["20–29", 2.5, 3.5], ["30–49", 1.5, 2], ["50+", 1, 1.5]]}};
+var DATA=[{"n": 1, "fig": 1, "strat": "Main idea", "q": "Which sentence best introduces Figure 1?", "short": "Which sentence best introduces Figure 1?", "o": ["The table compares how people in City A and City B travel to work.", "City A has more cars than City B.", "This table shows that 40 percent of people in City A drive their own cars every day.", "The table shows that walking is healthy for workers."], "time": 30}, {"n": 2, "fig": 1, "strat": "Main idea", "q": "What is the main purpose of Figure 1?", "short": "What is the main purpose of Figure 1?", "o": ["To show how transport use changed over several years", "To explain why people in City B prefer buses", "To recommend the best and cheapest way for people in both cities to travel to work every day", "To show the share of workers using each type of transport in two cities"], "time": 30}, {"n": 3, "fig": 1, "strat": "Overall trend", "q": "Which statement best describes the overall pattern in Figure 1?", "short": "Which statement best describes the overall pattern in Figure 1?", "o": ["Cars are most common in City A, while buses are most common in City B.", "Buses are the most popular choice in both cities.", "Walking is the least common way to travel in both cities.", "Most people in both cities prefer private transport, and very few people use buses or bikes."], "time": 30}, {"n": 4, "fig": 1, "strat": "Overall trend", "q": "Which way of travelling is the least common in City A but the second most common in City B?", "short": "Which way of travelling is the least common in City A but the second most common in City B?", "o": ["Walking", "Driving a car", "Taking the bus every day", "Cycling"], "time": 30}, {"n": 5, "fig": 1, "strat": "Comparison", "q": "Which comparison of the two cities in Figure 1 is accurate?", "short": "Which comparison of the two cities in Figure 1 is accurate?", "o": ["Bike use is the same in both cities.", "Walking is three times as common in City A as in City B, where most people cycle.", "Bus use in City B is twice as high as in City A.", "Car use in City A is twice as high as in City B."], "time": 30}, {"n": 6, "fig": 1, "strat": "Comparison", "q": "Choose the best word to complete the sentence:\n“In City A, 40% of workers drive, ______ in City B only 20% do.”", "short": "Choose the best word to complete the sentence: “In City A, 40% of workers drive, ______ in City B only 20% do.”", "o": ["because", "as a result of", "whereas", "unless"], "time": 30}, {"n": 7, "fig": 1, "strat": "Specific data", "q": "According to Figure 1, what percentage of people in City B ride a bike to work?", "short": "According to Figure 1, what percentage of people in City B ride a bike to work?", "o": ["20%", "30%", "35%", "15%, the same as walking"], "time": 30}, {"n": 8, "fig": 1, "strat": "Specific data", "q": "Which sentence uses the data in Figure 1 correctly?", "short": "Which sentence uses the data in Figure 1 correctly?", "o": ["In City B, 20% of workers walk to work.", "In City A, cars account for 40% of trips, while bikes make up 25% of all trips.", "In City A, 25% of workers walk, and 20% take the bus.", "In City B, 35% of workers take the bus, and 30% ride a bike."], "time": 30}, {"n": 9, "fig": 1, "strat": "Conclusion", "q": "Which sentence would best conclude a description of Figure 1?", "short": "Which sentence would best conclude a description of Figure 1?", "o": ["In summary, City A should build more bus lanes because traffic jams cause serious problems for workers.", "In conclusion, 40% drive in City A and 20% drive in City B.", "Overall, City A relies more on cars, while City B relies more on buses and bikes.", "To sum up, I think City B is a better city to live in."], "time": 30}, {"n": 10, "fig": 1, "strat": "Conclusion", "q": "Why is this sentence NOT a good conclusion?\n“In summary, bike use in City B will keep growing next year.”", "short": "Why is this sentence NOT a good conclusion? “In summary, bike use in City B will keep growing next year.”", "o": ["It is too short, because a conclusion must list every percentage from both cities.", "It repeats the main trend in new words.", "It does not use any numbers.", "It makes a prediction that the table does not show."], "time": 30}, {"n": 11, "fig": 2, "strat": "Main idea", "q": "Which title best matches Figure 2?", "short": "Which title best matches Figure 2?", "o": ["Why English Classes Are Becoming Less Popular Among University Students Today", "How Students Improved Their English Scores", "Students’ Favorite Ways to Study English", "The Best Apps for Learning English"], "time": 30}, {"n": 12, "fig": 2, "strat": "Main idea", "q": "Which opening sentence is most suitable for a report on Figure 2?", "short": "Which opening sentence is most suitable for a report on Figure 2?", "o": ["The bar chart shows that classes are boring for 15% of students.", "The line graph shows how the number of students studying English changed from 2020 to 2024.", "Apps are the best way to study English.", "The bar chart shows the favorite ways that 200 students study English."], "time": 30}, {"n": 13, "fig": 2, "strat": "Overall trend", "q": "What is the general pattern in Figure 2?", "short": "What is the general pattern in Figure 2?", "o": ["Classes are the most popular way to study.", "Digital methods are more popular than books and classes.", "Most students prefer traditional methods such as books and classes over apps and videos.", "All four methods are almost equally popular."], "time": 30}, {"n": 14, "fig": 2, "strat": "Overall trend", "q": "Which way of studying English is the least popular among the students?", "short": "Which way of studying English is the least popular among the students?", "o": ["Books", "Apps and videos together", "Videos", "Classes"], "time": 30}, {"n": 15, "fig": 2, "strat": "Comparison", "q": "Choose the best phrase to complete the sentence:\n“Apps are ______ classes.”", "short": "Choose the best phrase to complete the sentence: “Apps are ______ classes.”", "o": ["less popular than", "more than twice as popular as", "three times as popular as", "only a little more popular than"], "time": 30}, {"n": 16, "fig": 2, "strat": "Comparison", "q": "Which comparison is correct according to Figure 2?", "short": "Which comparison is correct according to Figure 2?", "o": ["Videos are twice as popular as books, and books are twice as popular as classes.", "Books are more popular than videos.", "Videos are more popular than books but less popular than apps.", "Classes and books are equally popular."], "time": 30}, {"n": 17, "fig": 2, "strat": "Specific data", "q": "How many of the 200 students chose apps as their favorite way to study?", "short": "How many of the 200 students chose apps as their favorite way to study?", "o": ["54", "76", "38", "100, which is half of them"], "time": 30}, {"n": 18, "fig": 2, "strat": "Specific data", "q": "Which sentence reports the data in Figure 2 correctly?", "short": "Which sentence reports the data in Figure 2 correctly?", "o": ["Classes make up 20% of the answers.", "Apps account for 27% of the answers, followed closely by videos at 38% of students.", "Books are chosen by 20% of the students, and classes by 15%.", "Videos are chosen by 38% of the students."], "time": 30}, {"n": 19, "fig": 2, "strat": "Conclusion", "q": "Which sentence would best end a description of Figure 2?", "short": "Which sentence would best end a description of Figure 2?", "o": ["To sum up, most students prefer digital tools to study English.", "In summary, teachers in many countries now use apps in class, according to a recent news report.", "In conclusion, the numbers are 38%, 27%, 20% and 15%.", "To sum up, schools should stop offering English classes."], "time": 30}, {"n": 20, "fig": 2, "strat": "Conclusion", "q": "A student ends with: “Overall, apps are the top choice, and classes are the least popular.”\nWhy is this a good conclusion?", "short": "A student ends with: “Overall, apps are the top choice, and classes are the least popular.” Why is this a good conclusion?", "o": ["It introduces a new reason why students like apps more than they like classes.", "It restates the main pattern without new data.", "It shares the writer’s opinion.", "It gives an exact number for every method."], "time": 30}, {"n": 21, "fig": 3, "strat": "Main idea", "q": "Which sentence best introduces Figure 3?", "short": "Which sentence best introduces Figure 3?", "o": ["The graph shows that apps are good for students.", "The line graph shows that 75% of university students used online learning apps in 2024, up from 20%.", "Online learning apps became popular.", "The line graph shows the percentage of university students using learning apps from 2020 to 2024."], "time": 30}, {"n": 22, "fig": 3, "strat": "Main idea", "q": "What does Figure 3 mainly show?", "short": "What does Figure 3 mainly show?", "o": ["The best learning apps for students", "A comparison of app use between university students and high school students in 2024", "Students’ scores before and after using apps", "A change in app use over five years"], "time": 30}, {"n": 23, "fig": 3, "strat": "Overall trend", "q": "Which statement best describes the overall trend in Figure 3?", "short": "Which statement best describes the overall trend in Figure 3?", "o": ["App use rose every year, but the growth slowed down.", "App use grew by the same amount each year, from 20% in 2020 to 75% in 2024.", "App use stayed stable after 2022.", "App use rose quickly at first and then fell."], "time": 30}, {"n": 24, "fig": 3, "strat": "Overall trend", "q": "Between which two years did app use grow the most?", "short": "Between which two years did app use grow the most?", "o": ["2021 and 2022", "2023 and 2024", "2020 and 2021", "2022 and 2023, when it reached 68%"], "time": 30}, {"n": 25, "fig": 3, "strat": "Comparison", "q": "Choose the best phrase to complete the sentence:\n“In 2024, the percentage of students using apps was almost ______ in 2020.”", "short": "Choose the best phrase to complete the sentence: “In 2024, the percentage of students using apps was almost ______ in 2020.”", "o": ["twice as high as", "four times as high as", "the same as", "ten times as high as it was"], "time": 30}, {"n": 26, "fig": 3, "strat": "Comparison", "q": "Which sentence compares two periods in Figure 3 correctly?", "short": "Which sentence compares two periods in Figure 3 correctly?", "o": ["Each year, the increase was larger than the year before.", "The rise from 2020 to 2021 was bigger than any later rise.", "The rise from 2022 to 2023 was bigger than the rise from 2021 to 2022.", "App use grew faster after 2022."], "time": 30}, {"n": 27, "fig": 3, "strat": "Specific data", "q": "What percentage of university students used online learning apps in 2022?", "short": "What percentage of university students used online learning apps in 2022?", "o": ["45%", "75%, its highest point", "60%", "68%"], "time": 30}, {"n": 28, "fig": 3, "strat": "Specific data", "q": "By how many percentage points did app use increase from 2022 to 2023?", "short": "By how many percentage points did app use increase from 2022 to 2023?", "o": ["15", "7", "8", "68, the total in 2023"], "time": 30}, {"n": 29, "fig": 3, "strat": "Conclusion", "q": "Which sentence is the best conclusion for Figure 3?", "short": "Which sentence is the best conclusion for Figure 3?", "o": ["In summary, more and more students used learning apps, although the growth slowed down.", "In summary, apps are better than teachers.", "In conclusion, it was 20%, 45%, 60%, 68% and 75%.", "In summary, app use will probably reach 100% by 2027 because students love using their phones."], "time": 30}, {"n": 30, "fig": 3, "strat": "Conclusion", "q": "Which phrase is best for starting the last sentence of a description of Figure 3?", "short": "Which phrase is best for starting the last sentence of a description of Figure 3?", "o": ["To sum up,", "On the other hand, in 2021,", "First of all,", "For example,"], "time": 30}, {"n": 31, "fig": 4, "strat": "Main idea", "q": "Which sentence best introduces Figure 4?", "short": "Which sentence best introduces Figure 4?", "o": ["The pie chart shows people’s main sources of news in 2024.", "The pie chart shows that newspapers are dying.", "Social media is the best source of news.", "The pie chart shows how the number of newspaper readers changed every year from 2020 to 2024."], "time": 30}, {"n": 32, "fig": 4, "strat": "Main idea", "q": "What should the first sentence about Figure 4 include?", "short": "What should the first sentence about Figure 4 include?", "o": ["Every percentage in the chart", "A prediction about which news source will be the most popular in the future", "The type of chart, the topic, and the year", "The writer’s favorite news source"], "time": 30}, {"n": 33, "fig": 4, "strat": "Overall trend", "q": "What is the overall pattern in Figure 4?", "short": "What is the overall pattern in Figure 4?", "o": ["Websites are the most popular source, followed closely by TV and then by social media.", "Social media is the main news source, and newspapers are the least used.", "Most people still read newspapers.", "TV and social media are equally popular."], "time": 30}, {"n": 34, "fig": 4, "strat": "Overall trend", "q": "Which news source is used by the largest share of people?", "short": "Which news source is used by the largest share of people?", "o": ["Social media", "TV", "Websites", "Newspapers and websites combined"], "time": 30}, {"n": 35, "fig": 4, "strat": "Comparison", "q": "Choose the best word to complete the sentence:\n“Social media is used by nearly ______ as many people as TV.”", "short": "Choose the best word to complete the sentence: “Social media is used by nearly ______ as many people as TV.”", "o": ["exactly", "half", "twice", "three times"], "time": 30}, {"n": 36, "fig": 4, "strat": "Comparison", "q": "Which comparison is supported by Figure 4?", "short": "Which comparison is supported by Figure 4?", "o": ["Social media is more popular than TV, websites and newspapers put together.", "TV is twice as popular as websites.", "Newspapers are more popular than websites.", "Websites are twice as popular as newspapers."], "time": 30}, {"n": 37, "fig": 4, "strat": "Specific data", "q": "What percentage of people get their news mainly from TV?", "short": "What percentage of people get their news mainly from TV?", "o": ["25%", "10%, the smallest share", "45%", "20%"], "time": 30}, {"n": 38, "fig": 4, "strat": "Specific data", "q": "Which sentence uses the data in Figure 4 correctly?", "short": "Which sentence uses the data in Figure 4 correctly?", "o": ["Newspapers account for 20% of the total.", "Websites make up 25% of the total.", "TV and newspapers together make up half of the total, at 50%.", "Social media accounts for 45% of the total."], "time": 30}, {"n": 39, "fig": 4, "strat": "Conclusion", "q": "Which sentence would best conclude a description of Figure 4?", "short": "Which sentence would best conclude a description of Figure 4?", "o": ["Overall, social media is the leading news source, while newspapers play a small role.", "In conclusion, the percentages were 45, 25, 20 and 10.", "To sum up, social media is popular because young people spend many hours on their phones every day.", "Overall, newspapers should become free so that more people read them."], "time": 30}, {"n": 40, "fig": 4, "strat": "Conclusion", "q": "A student writes this conclusion: “In conclusion, fake news on social media is a serious problem.”\nWhat is wrong with it?", "short": "A student writes this conclusion: “In conclusion, fake news on social media is a serious problem.” What is wrong with it?", "o": ["It repeats the main trend.", "It uses the wrong linking phrase.", "It adds an idea that the chart does not show.", "It gives too many exact percentages from the chart, so readers will feel bored."], "time": 30}, {"n": 41, "fig": 5, "strat": "Main idea", "q": "Which sentence best introduces Figure 5?", "short": "Which sentence best introduces Figure 5?", "o": ["The bar chart shows how many people in each age group own a smartphone.", "Teenagers use social media too much.", "The bar chart compares daily social media use by age group in 2020 and 2024.", "The bar chart shows that teenagers spent 4 hours a day on social media in 2024, the most."], "time": 30}, {"n": 42, "fig": 5, "strat": "Main idea", "q": "Which two things does Figure 5 compare?", "short": "Which two things does Figure 5 compare?", "o": ["Countries and age groups", "Age groups and two different years", "Different social media apps", "Men and women of different ages in five countries"], "time": 30}, {"n": 43, "fig": 5, "strat": "Overall trend", "q": "Which statement best describes the overall pattern in Figure 5?", "short": "Which statement best describes the overall pattern in Figure 5?", "o": ["Use rose only among teenagers, while all the other age groups stayed stable between 2020 and 2024.", "Younger people use social media more, and use rose in every age group.", "Use fell in every age group.", "Older people use social media the most."], "time": 30}, {"n": 44, "fig": 5, "strat": "Overall trend", "q": "Which age group spent the least time on social media in both years?", "short": "Which age group spent the least time on social media in both years?", "o": ["People aged 30–49 in 2024", "People aged 50+", "Teenagers (13–19)", "People aged 20–29"], "time": 30}, {"n": 45, "fig": 5, "strat": "Comparison", "q": "Choose the best phrase to complete the sentence:\n“In 2020, teenagers spent ______ as much time on social media as people aged 50+.”", "short": "Choose the best phrase to complete the sentence: “In 2020, teenagers spent ______ as much time on social media as people aged 50+.”", "o": ["three times", "twice", "half", "one and a half times"], "time": 30}, {"n": 46, "fig": 5, "strat": "Comparison", "q": "Which comparison is accurate according to Figure 5?", "short": "Which comparison is accurate according to Figure 5?", "o": ["Teenagers’ use grew more than the use of people aged 50+.", "People aged 30–49 had the biggest increase.", "All age groups grew by exactly the same amount.", "People aged 20–29 used social media more than teenagers did in both 2020 and 2024."], "time": 30}, {"n": 47, "fig": 5, "strat": "Specific data", "q": "How many hours a day did people aged 20–29 spend on social media in 2024?", "short": "How many hours a day did people aged 20–29 spend on social media in 2024?", "o": ["3.5 hours", "2.5 hours", "2 hours, the same as in 2020", "4 hours"], "time": 30}, {"n": 48, "fig": 5, "strat": "Specific data", "q": "Which sentence reports Figure 5 correctly?", "short": "Which sentence reports Figure 5 correctly?", "o": ["Teenagers averaged 3.5 hours a day in 2024.", "People aged 30–49 averaged 1.5 hours in 2020 and 2 hours in 2024.", "People aged 50+ averaged 2 hours in 2020.", "People aged 20–29 averaged 3 hours a day in 2020 and 4.5 hours a day in 2024."], "time": 30}, {"n": 49, "fig": 5, "strat": "Conclusion", "q": "Which sentence would best conclude a description of Figure 5?", "short": "Which sentence would best conclude a description of Figure 5?", "o": ["In summary, older people should use social media more often.", "In summary, social media use grew from 2020 to 2024, and younger people still used it most.", "To sum up, teens 4, 20–29 3.5, 30–49 2, and 50+ 1.5 hours.", "In conclusion, social media can make people feel lonely, so everyone should limit their daily screen time."], "time": 30}, {"n": 50, "fig": 5, "strat": "Conclusion", "q": "Which of these should NOT appear in the conclusion of a description of Figure 5?", "short": "Which of these should NOT appear in the conclusion of a description of Figure 5?", "o": ["A linking phrase such as “In summary”", "The main trend in different words", "A short summary of the main pattern in one or two sentences", "New data that is not in the chart"], "time": 30}];
+var K="SFIiNDkJFeDy+sjcp7a9j5tlckJJXiY3AwwY6/TDzt+rt4CUnG52R1JcKToEEx7u+8I=";                 // scrambled answer key (index into canonical options)
+var C="FVrj+u+cpkN0YyC+4/nJ8F4qH02s/pPGHAJjAH/DkZTYWTQSeDeri7CpFRMcemCLmZg=";                 // scrambled release codes, one per question
+var LECTURER_PIN="EL2026";     // passcode for the projector display
+var MAX_WARN=2, GRACE=5, MAX_TRY=3, LOCKOUT=15;
+function key(i){var b=atob(K);return "abcd".indexOf(String.fromCharCode(b.charCodeAt(i)^(41+i*13)%256));}
+function code(i){var b=atob(C);return b.charCodeAt(i)^((73+i*29)%256);}
+function secs(q){return q.time;}
+
+var $=function(id){return document.getElementById(id);};
+var esc=function(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
+function fmt(s){s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
+function show(id){["startScreen","gridScreen","qScreen","resultScreen","proj"].forEach(function(x){$(x).classList.toggle("hidden",x!==id);});window.scrollTo(0,0);}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+/* ---------------- figures (drawn as SVG so they stay sharp on a projector) ---------------- */
+var PAL=["#4f86f7","#f0a53c","#35b37e","#d46bb3"];
+function txt(x,y,s,o){o=o||{};return '<text x="'+x+'" y="'+y+'" font-size="'+(o.fs||22)+'" text-anchor="'+(o.a||"middle")+'" font-weight="'+(o.w||600)+'" fill="'+(o.c||"currentColor")+'">'+esc(s)+'</text>';}
+function axes(x0,y0,w,h,max,step,unit){var s="";for(var v=0;v<=max+1e-9;v+=step){var y=y0-h*v/max;
+ s+='<line x1="'+x0+'" x2="'+(x0+w)+'" y1="'+y+'" y2="'+y+'" stroke="currentColor" stroke-opacity=".18"/>'+txt(x0-10,y+7,(Math.round(v*10)/10)+(unit||""),{a:"end",fs:20,w:500});}return s;}
+function figTable(f){return '<table><thead><tr>'+f.head.map(function(h){return '<th>'+esc(h)+'</th>';}).join("")+'</tr></thead><tbody>'+
+ f.rows.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+esc(c)+'</td>';}).join("")+'</tr>';}).join("")+'</tbody></table>';}
+function figBar(f){var W=760,H=470,x0=70,y0=410,w=670,h=360,n=f.rows.length,bw=w/n*0.55,s="";
+ s+=axes(x0,y0,w,h,f.max,f.step,f.unit);
+ f.rows.forEach(function(r,i){var cx=x0+w/n*(i+.5),bh=h*r[1]/f.max;
+  s+='<rect x="'+(cx-bw/2)+'" y="'+(y0-bh)+'" width="'+bw+'" height="'+bh+'" rx="6" fill="'+PAL[i%4]+'"/>'+txt(cx,y0-bh-10,r[1]+f.unit,{fs:26,w:800})+txt(cx,y0+34,r[0],{fs:24});});
+ return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Bar chart">'+s+'</svg>';}
+function figLine(f){var W=760,H=470,x0=70,y0=410,w=650,h=360,n=f.rows.length,s="",pts=[];
+ s+=axes(x0,y0,w,h,f.max,f.step,f.unit);
+ f.rows.forEach(function(r,i){var x=x0+20+(w-40)*i/(n-1),y=y0-h*r[1]/f.max;pts.push(x+","+y);});
+ s+='<polyline points="'+pts.join(" ")+'" fill="none" stroke="'+PAL[0]+'" stroke-width="5"/>';
+ f.rows.forEach(function(r,i){var p=pts[i].split(",");s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="9" fill="'+PAL[0]+'"/>'+txt(+p[0],+p[1]-18,r[1]+f.unit,{fs:26,w:800})+txt(+p[0],y0+34,r[0],{fs:24});});
+ return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Line graph">'+s+'</svg>';}
+function figPie(f){var W=760,H=470,cx=230,cy=235,R=210,a=-Math.PI/2,s="";
+ f.rows.forEach(function(r,i){var b=a+2*Math.PI*r[1]/100,large=(b-a)>Math.PI?1:0,m=(a+b)/2;
+  s+='<path d="M'+cx+','+cy+' L'+(cx+R*Math.cos(a))+','+(cy+R*Math.sin(a))+' A'+R+','+R+' 0 '+large+' 1 '+(cx+R*Math.cos(b))+','+(cy+R*Math.sin(b))+' Z" fill="'+PAL[i%4]+'" stroke="#fff" stroke-width="3"/>'+
+   txt(cx+R*.62*Math.cos(m),cy+R*.62*Math.sin(m)+10,r[1]+"%",{fs:30,w:800,c:"#111"});a=b;});
+ f.rows.forEach(function(r,i){var y=120+i*70;s+='<rect x="490" y="'+(y-24)+'" width="30" height="30" rx="5" fill="'+PAL[i%4]+'"/>'+txt(535,y,r[0],{a:"start",fs:28});});
+ return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Pie chart">'+s+'</svg>';}
+function figGroup(f){var W=760,H=470,x0=70,y0=380,w=670,h=330,n=f.rows.length,gw=w/n,bw=gw*0.3,s="";
+ s+=axes(x0,y0,w,h,f.max,f.step,f.unit);
+ f.rows.forEach(function(r,i){var cx=x0+gw*(i+.5);[1,2].forEach(function(k,j){var bh=h*r[k]/f.max,x=cx+(j?2:-bw-2);
+   s+='<rect x="'+x+'" y="'+(y0-bh)+'" width="'+bw+'" height="'+bh+'" rx="5" fill="'+PAL[j]+'"/>'+txt(x+bw/2,y0-bh-8,r[k],{fs:22,w:800});});
+  s+=txt(cx,y0+32,r[0],{fs:24});});
+ f.series.forEach(function(nm,j){var x=250+j*170;s+='<rect x="'+x+'" y="432" width="26" height="26" rx="5" fill="'+PAL[j]+'"/>'+txt(x+36,453,nm,{a:"start",fs:24});});
+ return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Grouped bar chart">'+s+'</svg>';}
+function figHtml(id){var f=FIGS[id];var b=f.type==="table"?figTable(f):f.type==="bar"?figBar(f):f.type==="line"?figLine(f):f.type==="pie"?figPie(f):figGroup(f);
+ return '<div class="pfig"><div class="ft">'+esc(f.title)+'</div><div class="fb">'+b+'</div></div>';}
+
+/* ---------------- modal & toast (no alert(): it steals focus) ---------------- */
+var modalOpen=false;
+function modal(o){modalOpen=true;var r=$("modalRoot");
+ r.innerHTML='<div class="overlay" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="modal '+(o.tone||'')+'"><h2 id="mt">'+o.title+'</h2><div>'+o.body+'</div><div class="acts">'+
+ (o.cancel?'<button class="btn" id="mCancel" type="button">'+o.cancel+'</button>':'')+'<button class="btn primary" id="mOk" type="button">'+(o.ok||'OK')+'</button></div></div></div>';
+ var close=function(){r.innerHTML="";modalOpen=false;};
+ $("mOk").onclick=function(){var v=o.input?($("mIn")||{}).value:null;close();if(o.onOk)o.onOk(v);};
+ if(o.cancel)$("mCancel").onclick=function(){close();if(o.onCancel)o.onCancel();};
+ ($("mIn")||$("mOk")).focus();}
+var toastT;function toast(t){var el=document.querySelector(".toast");if(!el){el=document.createElement("div");el.className="toast";el.setAttribute("role","status");document.body.appendChild(el);}
+ el.textContent=t;el.classList.remove("hidden");clearTimeout(toastT);toastT=setTimeout(function(){el.classList.add("hidden");},2400);}
+
+/* =====================================================================
+   LECTURER PROJECTOR
+   ===================================================================== */
+var P={i:0,left:0,running:false,released:false,tick:null,showOpts:false};
+$("lecturerLink").onclick=function(){
+ modal({title:"Lecturer display",body:'<label class="f" for="mIn" style="margin-top:0">Passcode</label><input class="t" id="mIn" type="password" autocomplete="off">',input:true,ok:"Open",cancel:"Cancel",
+  onOk:function(v){if(String(v||"").trim()===LECTURER_PIN)startProjector();else toast("Wrong passcode.");}});
+ setTimeout(function(){var i=$("mIn");if(i)i.onkeydown=function(e){if(e.key==="Enter")$("mOk").click();};},0);};
+function startProjector(){S.mode="lecturer";show("proj");pGo(0);}
+function pGo(i){if(i<0||i>=DATA.length)return;P.i=i;P.running=false;P.released=false;clearInterval(P.tick);P.left=secs(DATA[i]);P.showOpts=false;pRender();}
+function pRender(){var q=DATA[P.i];
+ $("pNum").innerHTML="Question "+q.n+" <small>/ "+DATA.length+"</small>";
+ var h=figHtml(q.fig)+'<div class="pq"><div class="stem">'+esc(q.q)+'</div>';
+ if(P.showOpts)h+='<div class="popts">'+q.o.map(function(o,k){return '<div><b>'+"ABCD"[k]+'</b>'+esc(o)+'</div>';}).join("")+'</div>';
+ h+=P.released?'<div class="relbox on">Options released. Type this code on your phone:<span class="code">'+String(code(P.i)).padStart(2,"0")+'</span></div>'
+  :'<div class="relbox">Tap <b>'+q.n+'</b> on your phone. Read the figure and the question first. The options will be released soon.</div>';
+ h+='</div>';
+ $("pMain").innerHTML=h;
+ $("pOpts").setAttribute("aria-pressed",P.showOpts);$("pOpts").textContent=P.showOpts?"Hide options":"Show options";
+ $("pRel").disabled=P.released;$("pRel").textContent=P.released?"✓ Released":"🔓 Release options (R)";
+ $("pPlay").disabled=!P.released;$("pAdd").disabled=!P.released;
+ $("pPrev").disabled=P.i===0;$("pNext").disabled=P.i===DATA.length-1;
+ pClock();fit();}
+function pClock(){var tot=secs(DATA[P.i]);$("pTimer").textContent=!P.released?"🔒 "+fmt(P.left):P.left>0?fmt(P.left):"Time’s up";
+ $("pTimer").classList.toggle("low",P.released&&P.left<=5&&P.left>0);$("pTimer").classList.toggle("up",P.left<=0);
+ $("pBar").style.width=Math.max(0,P.left/tot*100)+"%";$("pPlay").textContent=P.running?"❚❚ Pause":"▶ Resume";}
+function run(){clearInterval(P.tick);P.running=true;P.tick=setInterval(function(){P.left--;if(P.left<=0){P.left=0;P.running=false;clearInterval(P.tick);}pClock();},1000);pClock();}
+function pRelease(){if(P.released)return;P.released=true;pRender();run();}
+function pToggle(){if(!P.released||P.left<=0)return;if(P.running){P.running=false;clearInterval(P.tick);pClock();}else run();}
+/* shrink the text until the figure and question fit the screen */
+function fit(){var m=$("pMain"),s=Math.min(window.innerWidth/1280,window.innerHeight/720),f=Math.round(60*s);
+ for(var k=0;k<80;k++){m.style.fontSize=f+"px";var q=m.querySelector(".pq");if((!q||q.scrollHeight<=q.clientHeight+2)&&m.scrollHeight<=m.clientHeight+2||f<=14)break;f-=1;}}
+$("pPrev").onclick=function(){pGo(P.i-1);};$("pNext").onclick=function(){pGo(P.i+1);};
+$("pRel").onclick=pRelease;$("pPlay").onclick=pToggle;$("pReset").onclick=function(){pGo(P.i);};
+$("pAdd").onclick=function(){P.left+=10;pClock();};
+$("pOpts").onclick=function(){P.showOpts=!P.showOpts;pRender();};
+$("pFull").onclick=function(){try{if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}catch(e){}};
+$("pJump").onclick=function(){var h='<div class="pgrid">'+DATA.map(function(q,i){return '<button type="button" data-j="'+i+'"'+(i===P.i?' class="cur"':'')+'>'+q.n+'</button>';}).join("")+'</div>';
+ modal({title:"Go to question",body:h,ok:"Close"});document.querySelector(".modal").style.maxWidth="820px";
+ document.querySelectorAll("[data-j]").forEach(function(b){b.onclick=function(){$("modalRoot").innerHTML="";modalOpen=false;pGo(+b.dataset.j);};});};
+window.addEventListener("resize",function(){if(S.mode==="lecturer")fit();});
+document.addEventListener("keydown",function(e){if(S.mode!=="lecturer"||modalOpen)return;var k=e.key.toLowerCase();
+ if(e.key==="ArrowRight"||e.key==="PageDown"){e.preventDefault();pGo(P.i+1);}else if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();pGo(P.i-1);}
+ else if(e.key===" "){e.preventDefault();pToggle();}else if(k==="r"){pRelease();}else if(k==="o"){P.showOpts=!P.showOpts;pRender();}else if(k==="f")$("pFull").click();});
+
+/* =====================================================================
+   STUDENT
+   ===================================================================== */
+var S={mode:"",name:"",no:"",prog:"",ans:{},open:{},unl:{},locked:{},order:{},cur:-1,viol:0,lastV:0,auto:"",start:0,active:false,done:false,qtick:null,baseW:0,baseH:0,orient:"",wake:null,tries:0,lockUntil:0};
+function newOrders(){DATA.forEach(function(q,i){S.order[i]=shuffle([0,1,2,3]);});}
+$("startBtn").onclick=function(){
+ var n=$("fullName").value.trim(),no=$("studentNo").value.trim(),p=$("program").value.trim();
+ if(!n||!no||!p){$("startErr").textContent="Please fill in your name, student number and study program.";return;}
+ S.mode="student";S.name=n;S.no=no;S.prog=p;newOrders();S.start=Date.now();S.active=true;
+ try{if(document.documentElement.requestFullscreen&&window.matchMedia("(pointer:fine)").matches)document.documentElement.requestFullscreen().catch(function(){});}catch(e){}
+ wake();$("sWho").textContent=n;drawGrid();show("gridScreen");
+ setTimeout(function(){S.baseW=window.innerWidth;S.baseH=window.innerHeight;S.orient=orient();},1200);
+ S.qtick=setInterval(qTick,500);};
+function wake(){try{if(navigator.wakeLock&&S.active)navigator.wakeLock.request("screen").then(function(w){S.wake=w;}).catch(function(){});}catch(e){}}
+
+function status(i){if(S.locked[i])return "locked";if(S.ans[i]!==undefined)return "done";if(S.open[i])return "open";return "";}
+function drawGrid(){$("grid").innerHTML=DATA.map(function(q,i){var st=status(i);return '<button type="button" class="num '+st+'" data-i="'+i+'"'+(st==="locked"?' aria-disabled="true"':'')+' aria-label="Question '+q.n+(st==="done"?", answered":st==="locked"?", time is up":"")+'">'+q.n+'</button>';}).join("");
+ $("grid").querySelectorAll(".num").forEach(function(b){b.onclick=function(){openQ(+b.dataset.i);};});
+ var n=Object.keys(S.ans).length;$("sCount").textContent=n+" / "+DATA.length+" answered";}
+/* the answer timer starts only when the options are unlocked with the release code */
+function remain(i){return S.unl[i]?secs(DATA[i])+GRACE-(Date.now()-S.unl[i])/1000:secs(DATA[i])+GRACE;}
+function openQ(i){if(S.done)return;if(S.locked[i]){toast("Time’s up for question "+DATA[i].n+".");return;}
+ if(!S.open[i])S.open[i]=Date.now();S.cur=i;$("qTitle").textContent="Question "+DATA[i].n;paintQ();qTick();show("qScreen");
+ if(!S.unl[i])setTimeout(function(){try{$("gIn").focus();}catch(e){}},50);}
+function paintQ(){var i=S.cur;if(i<0)return;var u=!!S.unl[i];
+ $("qGate").classList.toggle("hidden",u);$("qBody").classList.toggle("hidden",!u);$("gIn").value="";$("gErr").textContent="";
+ if(u)renderOpts();}
+function tryCode(){var i=S.cur;if(i<0||S.unl[i])return;
+ if(Date.now()<S.lockUntil){$("gErr").textContent="Too many wrong codes. Wait "+Math.ceil((S.lockUntil-Date.now())/1000)+" s.";return;}
+ var v=$("gIn").value.trim();if(!/^\d{1,2}$/.test(v)){$("gErr").textContent="Type the 2-digit code from the projector.";return;}
+ if(+v===code(i)){S.tries=0;S.unl[i]=Date.now();paintQ();qTick();}
+ else{S.tries++;$("gIn").value="";
+  if(S.tries>=MAX_TRY){S.tries=0;S.lockUntil=Date.now()+LOCKOUT*1000;$("gErr").textContent="Wrong code 3 times. Wait "+LOCKOUT+" s, then look at the projector.";}
+  else $("gErr").textContent="Wrong code. The options are not released yet, or check the projector again.";}}
+$("gBtn").onclick=tryCode;$("gIn").onkeydown=function(e){if(e.key==="Enter")tryCode();};
+function renderOpts(){var i=S.cur;if(i<0||!S.unl[i])return;var q=DATA[i];
+ $("qOpts").innerHTML=S.order[i].map(function(k,pos){return '<button type="button" class="opt" data-k="'+k+'" aria-pressed="'+(S.ans[i]===k)+'"><span class="l">'+"ABCD"[pos]+'</span><span>'+esc(q.o[k])+'</span></button>';}).join("");
+ $("qOpts").querySelectorAll(".opt").forEach(function(b){b.onclick=function(){if(S.locked[i]||S.done)return;S.ans[i]=+b.dataset.k;
+  $("qOpts").querySelectorAll(".opt").forEach(function(x){x.setAttribute("aria-pressed",x===b);});$("qSaved").textContent="✓ Answer saved. You can change it until the time runs out.";drawGrid();};});
+ $("qSaved").textContent=S.ans[i]!==undefined?"✓ Answer saved. You can change it until the time runs out.":"";}
+function qTick(){if(!S.active)return;
+ Object.keys(S.unl).forEach(function(k){k=+k;if(!S.locked[k]&&remain(k)<=0){S.locked[k]=true;
+  if(S.cur===k&&!$("qScreen").classList.contains("hidden")){S.cur=-1;drawGrid();show("gridScreen");toast("Time’s up for question "+DATA[k].n+".");}else drawGrid();}});
+ if(S.cur>-1){var u=!!S.unl[S.cur],r=remain(S.cur),tot=secs(DATA[S.cur])+GRACE;$("qClock").textContent=u?fmt(r):"🔒 locked";$("qClock").classList.toggle("low",u&&r<=8);$("qBar").style.width=(u?Math.max(0,r/tot*100):100)+"%";}}
+$("backBtn").onclick=function(){S.cur=-1;drawGrid();show("gridScreen");};
+
+/* ---------------- anti-cheat ---------------- */
+function orient(){try{return screen.orientation?screen.orientation.type:String(window.orientation);}catch(e){return "";}}
+function violation(reason){
+ if(!S.active||S.done)return;var now=Date.now();if(now-S.lastV<2500)return;S.lastV=now;
+ S.viol++;newOrders();renderOpts();   // re-shuffle every question's options
+ $("sWarn").textContent="Warnings: "+Math.min(S.viol,MAX_WARN)+" / "+MAX_WARN;$("sWarn").classList.add("warn");
+ if(S.viol<=MAX_WARN){var last=S.viol===MAX_WARN;
+  modal({tone:last?"danger":"caution",title:last?"⛔ Final warning (2 of 2)":"⚠ Warning (1 of 2)",
+   body:"<p>You "+reason+". Your options have been shuffled again.</p><p>Stay on this page until you submit: no other tabs or apps, no split screen, no notifications."+(last?" <b>Next time, your quiz will be submitted automatically.</b>":" You have one warning left.")+"</p>",ok:"Back to the quiz",onOk:wake});
+ }else{S.auto="Left the page "+S.viol+" times";finish();
+  modal({tone:"danger",title:"❌ Quiz submitted automatically",body:"<p>You left the quiz page a third time, so your answers were submitted.</p>",ok:"See my score"});}}
+document.addEventListener("visibilitychange",function(){if(document.hidden)violation("left the quiz tab or app");else wake();});
+window.addEventListener("blur",function(){setTimeout(function(){if(!document.hasFocus())violation("switched to another window, app or notification");},300);});
+window.addEventListener("resize",function(){if(S.mode!=="student"||!S.active||!S.baseW)return;
+ if(orient()!==S.orient){S.orient=orient();setTimeout(function(){S.baseW=window.innerWidth;S.baseH=window.innerHeight;},600);return;}
+ if(window.innerWidth<S.baseW*0.75||window.innerHeight<S.baseH*0.6)violation("made the window smaller or used split screen");});
+document.addEventListener("fullscreenchange",function(){if(S.mode!=="student")return;if(document.fullscreenElement)S.fs=true;else if(S.fs&&S.active)violation("left full screen");});
+document.addEventListener("contextmenu",function(e){if(S.active){e.preventDefault();toast("Right-click is disabled during the quiz.");}});
+["copy","cut","paste"].forEach(function(t){document.addEventListener(t,function(e){if(S.active){e.preventDefault();toast("Copying is disabled during the quiz.");}});});
+document.addEventListener("keydown",function(e){if(!S.active)return;var k=(e.key||"").toLowerCase();
+ if(k==="printscreen"||k==="f12"||((e.ctrlKey||e.metaKey)&&["c","x","v","p","s","u","a","f"].indexOf(k)>-1)||((e.ctrlKey||e.metaKey)&&e.shiftKey&&["i","j","c","s"].indexOf(k)>-1)){e.preventDefault();toast("That shortcut is disabled during the quiz.");}});
+window.addEventListener("beforeunload",function(e){if(S.active){e.preventDefault();e.returnValue="";}});
+
+/* ---------------- submit & results ---------------- */
+$("submitBtn").onclick=function(){var n=Object.keys(S.ans).length;
+ modal({tone:n<DATA.length?"caution":"",title:"Submit your quiz?",body:"<p>You answered "+n+" of "+DATA.length+" questions."+(n<DATA.length?" Unanswered questions count as incorrect.":"")+" You can’t change your answers after submitting.</p>",ok:"Submit",cancel:"Keep going",onOk:finish});};
+function finish(){if(S.done)return;S.done=true;S.active=false;clearInterval(S.qtick);
+ try{if(document.fullscreenElement)document.exitFullscreen();}catch(e){}try{if(S.wake)S.wake.release();}catch(e){}
+ var used=Math.round((Date.now()-S.start)/1000),ok=0,h="";
+ DATA.forEach(function(q,i){var a=S.ans[i],has=a!==undefined,right=has&&a===key(i);if(right)ok++;
+  h+='<div class="ri '+(right?'c':'w')+'" data-r="'+(right?'c':'w')+'"><div class="qq"><span class="n">'+q.n+'.</span><span>'+esc(FIGS[q.fig].title)+' — '+esc(q.short)+'</span></div>'+
+   '<div class="ya"><span>Your answer:</span><b>'+(has?esc(q.o[a]):(S.locked[i]?"Not answered (time ran out)":"Not answered"))+'</b></div>'+
+   '<span class="badge '+(right?'c':'w')+'">'+(right?'✓ correct':'✗ incorrect')+'</span></div>';});
+ $("rList").innerHTML=h;$("rName").textContent=S.name;
+ var m=Math.floor(used/60),s=used%60;
+ $("rMeta").innerHTML='<span>🎓 Student number: <b>'+esc(S.no)+'</b></span><span>📚 <b>'+esc(S.prog)+'</b></span><span>⏱️ Test time: <b>'+m+' min '+s+' sec</b></span><span class="muted" style="font-size:.9rem">Submitted '+esc(new Date().toLocaleString())+'</span>';
+ $("rScore").textContent=ok;$("rTotal").textContent="/"+DATA.length;
+ $("rFlag").innerHTML=S.auto?'<div class="flag">Auto-submitted: '+esc(S.auto)+'. Warnings received: '+MAX_WARN+' / '+MAX_WARN+'.</div>':'<div class="flag '+(S.viol?'':'ok')+'">Submitted by student. Warnings received: '+S.viol+' / '+MAX_WARN+'.</div>';
+ show("resultScreen");}
+document.querySelectorAll(".filters button").forEach(function(b){b.onclick=function(){document.querySelectorAll(".filters button").forEach(function(x){x.setAttribute("aria-pressed",x===b);});
+ document.querySelectorAll(".ri").forEach(function(r){r.classList.toggle("hidden",b.dataset.f!=="all"&&r.dataset.r!==b.dataset.f);});};});
+})();
+</script>
+
+</body>
+</html>
